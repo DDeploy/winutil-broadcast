@@ -2,7 +2,7 @@
     "1password": {
         "category": "Utilities",
         "choco": "1password",
-        "content": "1Password",
+        "content": "1Password-Tester",
         "description": "1Password is a password manager that allows you to store and manage your passwords securely.",
         "link": "https://1password.com/",
         "winget": "AgileBits.1Password"
@@ -2927,5 +2927,13 @@
         "description": "The modern, privacy-focused, performance-driven browser built on Firefox",
         "link": "https://zen-browser.app/",
         "winget": "Zen-Team.Zen-Browser"
+    },
+    "vmix": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "vMix",
+        "description": "vMix is a live video production and streaming software.",
+        "link": "https://www.vmix.com/",
+        "winget": "na"
     }
 }
