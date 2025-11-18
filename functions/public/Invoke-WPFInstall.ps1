@@ -41,6 +41,17 @@ function Invoke-WPFInstall {
                 Install-WinUtilChoco
                 Install-WinUtilProgramChoco -Action Install -Programs $packagesChoco
             }
+
+            # Run custom installers for apps without package manager IDs
+            $manualAppKeys = $sync.selectedApps | Where-Object {
+                $app = $sync.configs.applicationsHashtable.$_
+                $app.winget -eq 'na' -and $app.choco -eq 'na'
+            }
+
+            foreach ($appKey in $manualAppKeys) {
+                Invoke-WinUtilCustomAppInstaller -AppKey $appKey -Action 'Install'
+            }
+
             Hide-WPFInstallAppBusy
             Write-Host "==========================================="
             Write-Host "--      Installs have finished          ---"

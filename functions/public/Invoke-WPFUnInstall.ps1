@@ -50,6 +50,16 @@ function Invoke-WPFUnInstall {
             if($packagesChoco.Count -gt 0) {
                 Install-WinUtilProgramChoco -Action Uninstall -Programs $packagesChoco
             }
+
+            # Run custom uninstallers for apps without package manager IDs
+            $manualAppKeys = $sync.selectedApps | Where-Object {
+                $app = $sync.configs.applicationsHashtable.$_
+                $app.winget -eq 'na' -and $app.choco -eq 'na'
+            }
+
+            foreach ($appKey in $manualAppKeys) {
+                Invoke-WinUtilCustomAppInstaller -AppKey $appKey -Action 'Uninstall'
+            }
             Hide-WPFInstallAppBusy
             Write-Host "==========================================="
             Write-Host "--       Uninstalls have finished       ---"
