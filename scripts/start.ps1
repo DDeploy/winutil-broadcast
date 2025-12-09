@@ -62,9 +62,8 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     $script = if ($PSCommandPath) {
         "& { & `'$($PSCommandPath)`' $($argList -join ' ') }"
     } else {
-        # When running from 'irm ... | iex' there is no PSCommandPath, so
-        # re-download and execute this fork's compiled script from our domain
-        "&([ScriptBlock]::Create((irm https://deployer.tv/test/winutil.ps1))) $($argList -join ' ')"
+        # Relaunch from the latest release of this fork instead of upstream
+        "&([ScriptBlock]::Create((irm https://github.com/DDeploy/winutil-broadcast/releases/latest/download/winutil.ps1))) $($argList -join ' ')"
     }
 
     $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
