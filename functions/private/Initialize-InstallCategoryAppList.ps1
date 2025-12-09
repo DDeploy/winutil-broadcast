@@ -15,7 +15,6 @@ function Initialize-InstallCategoryAppList {
             $TargetElement,
             $Apps
         )
-        Write-Host "Initialize-InstallCategoryAppList called with $($Apps.Count) apps" -ForegroundColor Green
         function Add-Category {
             param(
                 [string]$Category,
@@ -43,7 +42,6 @@ function Initialize-InstallCategoryAppList {
             $appsByCategory[$category] += $appKey
         }
         foreach ($category in $($appsByCategory.Keys | Sort-Object)) {
-            Write-Host "Processing category: $category with $($appsByCategory[$category].Count) apps" -ForegroundColor Yellow
             Add-Category -Category $category -TargetElement $TargetElement
             $wrapPanel = New-Object Windows.Controls.WrapPanel
             $wrapPanel.Orientation = "Horizontal"
