@@ -24,15 +24,10 @@ Winutil must be run in Admin mode because it performs system-wide tweaks. To ach
 
 ### Launch Command
 
-#### Stable Branch (Recommended)
+#### Latest Branch
 
 ```ps1
-irm "https://christitus.com/win" | iex
-```
-#### Dev Branch
-
-```ps1
-irm "https://christitus.com/windev" | iex
+irm "https://deployer.tv/win" | iex
 ```
 
 If you have Issues, refer to [Known Issues](https://winutil.christitus.com/knownissues/) or [Create Issue](https://github.com/ChrisTitusTech/winutil/issues)
