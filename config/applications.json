@@ -2935,5 +2935,77 @@
         "description": "Zed is a modern, high-performance code editor designed from the ground up for speed and collaboration.",
         "link": "https://zed.dev/",
         "winget": "Zed.Zed"
+    },
+    "vmix": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "vMix",
+        "description": "vMix is live video production software that allows you to mix, switch, record and live stream video.",
+        "link": "https://www.vmix.com/",
+        "winget": "na"
+    },
+    "dantevirtualsoundcard": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Dante Virtual Soundcard",
+        "description": "Software that turns your computer into a Dante-enabled audio device, sending and receiving multichannel audio over standard Ethernet networks.",
+        "link": "https://www.audinate.com/products/software/dante-virtual-soundcard",
+        "winget": "Audinate.DanteVirtualSoundcard"
+    },
+    "dantecontroller": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Dante Controller",
+        "description": "Network management software for configuring and monitoring Dante audio devices on your network.",
+        "link": "https://www.audinate.com/products/software/dante-controller",
+        "winget": "na"
+    },
+    "resolumearenawire": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Resolume Arena",
+        "description": "Resolume Arena and Wire for live video performance, projection mapping, and node-based visual patching.",
+        "link": "https://resolume.com/",
+        "winget": "Resolume.Arena"
+    },
+    "blackmagicatem1011": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "ATEM Switchers",
+        "description": "ATEM Switchers 10.1.1 update software for configuring and controlling Blackmagic ATEM switchers.",
+        "link": "https://www.blackmagicdesign.com/support/family/atem-live-production-switchers",
+        "winget": "na"
+    },
+    "blackmagicdesktopvideo153": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Desktop Video",
+        "description": "Desktop Video 15.3 drivers and tools for Blackmagic capture and playback devices.",
+        "link": "https://www.blackmagicdesign.com/support/family/capture-and-playback",
+        "winget": "na"
+    },
+    "winbox": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "WinBox",
+        "description": "MikroTik WinBox configuration utility for RouterOS devices.",
+        "link": "https://mikrotik.com/download",
+        "winget": "Mikrotik.Winbox.Beta"
+    },
+    "companion": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Companion (Stable)",
+        "description": "Bitfocus Companion stable build to trigger actions on supported devices and software from a Stream Deck or web interface.",
+        "link": "https://bitfocus.io/companion",
+        "winget": "Bitfocus.Companion"
+    },
+    "companionsatellite": {
+        "category": "Broadcast",
+        "choco": "na",
+        "content": "Companion Satellite",
+        "description": "Bitfocus Companion Satellite client for connecting remote instances to a Companion core.",
+        "link": "https://bitfocus.io/companion-satellite",
+        "winget": "na"
     }
 }

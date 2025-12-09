@@ -33,9 +33,20 @@ Function Invoke-WinUtilCurrentSystem {
 
         $filter = Get-WinUtilVariables -Type Checkbox | Where-Object {$psitem -like "WPFInstall*"}
         $sync.GetEnumerator() | Where-Object {$psitem.Key -in $filter} | ForEach-Object {
-            $dependencies = @($sync.configs.applications.$($psitem.Key).winget -split ";")
+            $appConfig = $sync.configs.applications.$($psitem.Key)
+            $dependencies = @($appConfig.winget -split ";")
 
-            if ($dependencies[-1] -in $sync.InstalledPrograms.Id) {
+            $isInstalled = $false
+
+            if ($dependencies[-1] -and $dependencies[-1] -ne 'na') {
+                if ($dependencies[-1] -in $sync.InstalledPrograms.Id) {
+                    $isInstalled = $true
+                }
+            } else {
+                $isInstalled = Invoke-WinUtilCustomAppDetect -AppKey $psitem.Key
+            }
+
+            if ($isInstalled) {
                 Write-Output $psitem.name
             }
         }
