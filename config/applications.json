@@ -1489,7 +1489,7 @@
         "winget": "CoreyButler.NVMforWindows"
     },
     "obs": {
-        "category": "Multimedia Tools",
+        "category": "Broadcast",
         "choco": "obs-studio",
         "content": "OBS Studio",
         "description": "OBS Studio is a free and open-source software for video recording and live streaming. It supports real-time video/audio capturing and mixing, making it popular among content creators.",
