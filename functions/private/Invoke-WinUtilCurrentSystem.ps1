@@ -17,8 +17,20 @@ Function Invoke-WinUtilCurrentSystem {
         $apps = (choco list | Select-String -Pattern "^\S+").Matches.Value
         $filter = Get-WinUtilVariables -Type Checkbox | Where-Object {$psitem -like "WPFInstall*"}
         $sync.GetEnumerator() | Where-Object {$psitem.Key -in $filter} | ForEach-Object {
-            $dependencies = @($sync.configs.applications.$($psitem.Key).choco -split ";")
-            if ($dependencies -in $apps) {
+            $appConfig = $sync.configs.applications.$($psitem.Key)
+            $dependencies = @($appConfig.choco -split ";")
+
+            $isInstalled = $false
+
+            if ($dependencies[-1] -and $dependencies[-1] -ne 'na') {
+                if ($dependencies[-1] -in $apps) {
+                    $isInstalled = $true
+                }
+            } else {
+                $isInstalled = Invoke-WinUtilCustomAppDetect -AppKey $psitem.Key
+            }
+
+            if ($isInstalled) {
                 Write-Output $psitem.name
             }
         }

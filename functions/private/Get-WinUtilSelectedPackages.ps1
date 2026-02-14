@@ -29,26 +29,35 @@ function Get-WinUtilSelectedPackages
     Write-Debug "Checking packages using Preference '$($Preference)'"
 
     foreach ($package in $PackageList) {
+        # Skip packages that have no package manager support (custom/manual installs)
+        $hasWinget = $package.winget -and $package.winget -ne 'na'
+        $hasChoco  = $package.choco  -and $package.choco  -ne 'na'
+
+        if (-not $hasWinget -and -not $hasChoco) {
+            Write-Debug "$($package.content) has no winget or choco value — skipping (handled by custom installer)."
+            continue
+        }
+
         switch ($Preference) {
             "Choco" {
-                if ($package.choco -eq "na") {
-                    Write-Debug "$($package.content) has no Choco value."
-                    $null = $packagesWinget.add($($package.winget))
-                    Write-Host "Queueing $($package.winget) for Winget"
-                } else {
+                if ($hasChoco) {
                     $null = $packagesChoco.add($package.choco)
                     Write-Host "Queueing $($package.choco) for Chocolatey"
+                } elseif ($hasWinget) {
+                    Write-Debug "$($package.content) has no Choco value, falling back to Winget."
+                    $null = $packagesWinget.add($($package.winget))
+                    Write-Host "Queueing $($package.winget) for Winget"
                 }
                 break
             }
             "Winget" {
-                if ($package.winget -eq "na") {
-                    Write-Debug "$($package.content) has no Winget value."
-                    $null = $packagesChoco.add($package.choco)
-                    Write-Host "Queueing $($package.choco) for Chocolatey"
-                } else {
+                if ($hasWinget) {
                     $null = $packagesWinget.add($($package.winget))
                     Write-Host "Queueing $($package.winget) for Winget"
+                } elseif ($hasChoco) {
+                    Write-Debug "$($package.content) has no Winget value, falling back to Choco."
+                    $null = $packagesChoco.add($package.choco)
+                    Write-Host "Queueing $($package.choco) for Chocolatey"
                 }
                 break
             }
