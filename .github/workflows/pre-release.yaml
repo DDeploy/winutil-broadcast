@@ -73,6 +73,6 @@ jobs:
           append_body: false
           files: ./winutil.ps1
           overwrite_files: true
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
