@@ -39,9 +39,9 @@ Function Install-WinUtilProgramWinget {
 
         $commonArguments = "--id $wingetId --silent"
         $arguments = if ($Action -eq "Install") {
-            "install $commonArguments --accept-source-agreements --accept-package-agreements"
+            "install $commonArguments --accept-source-agreements --accept-package-agreements --source winget"
         } else {
-            "uninstall $commonArguments"
+            "uninstall $commonArguments --source winget"
         }
 
         $processParams = @{
@@ -88,7 +88,7 @@ Function Install-WinUtilProgramWinget {
         The Winget ID of the Program that should be uninstalled
         #>
         param (
-            [psobject]$Program
+            [string]$Program
         )
 
         try {
