@@ -62,7 +62,8 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     $script = if ($PSCommandPath) {
         "& { & `'$($PSCommandPath)`' $($argList -join ' ') }"
     } else {
-        "&([ScriptBlock]::Create((irm https://github.com/ChrisTitusTech/winutil/releases/latest/download/winutil.ps1))) $($argList -join ' ')"
+        # Relaunch from the latest release of this fork instead of upstream
+        "&([ScriptBlock]::Create((irm https://github.com/DDeploy/winutil-broadcast/releases/latest/download/winutil.ps1))) $($argList -join ' ')"
     }
 
     $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
@@ -79,8 +80,12 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 $dateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 
-$logdir = "$env:localappdata\winutil\logs"
-[System.IO.Directory]::CreateDirectory("$logdir") | Out-Null
+# Set the path for the winutil directory
+$winutildir = "$env:LocalAppData\winutil"
+New-Item $winutildir -ItemType Directory -Force | Out-Null
+
+$logdir = "$winutildir\logs"
+New-Item $logdir -ItemType Directory -Force | Out-Null
 Start-Transcript -Path "$logdir\winutil_$dateTime.log" -Append -NoClobber | Out-Null
 
 # Set PowerShell window title

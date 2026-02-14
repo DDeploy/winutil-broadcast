@@ -45,7 +45,6 @@ Microsoft.PowerShell.ConsoleHost.dll
 
 # General
 .DS_Store
-microwin.log
 True
 test.ps1
 winutil.ps1
@@ -56,3 +55,8 @@ winutil.ps1
 binary/
 
 .preprocessor_hashes.json
+
+# Hugo Files
+docs/public/
+docs/.hugo_build.lock
+docs/resources/

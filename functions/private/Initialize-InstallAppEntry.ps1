@@ -13,11 +13,14 @@ function Initialize-InstallAppEntry {
             $appKey
         )
 
+        # Get the app data from the hashtable
+        $appData = $sync.configs.applicationsHashtable.$appKey
+
         # Create the outer Border for the application type
         $border = New-Object Windows.Controls.Border
         $border.Style = $sync.Form.Resources.AppEntryBorderStyle
         $border.Tag = $appKey
-        $border.ToolTip = $Apps.$appKey.description
+        $border.ToolTip = $appData.description
         $border.Add_MouseLeftButtonUp({
             $childCheckbox = ($this.Child | Where-Object {$_.Template.TargetType -eq [System.Windows.Controls.Checkbox]})[0]
             $childCheckBox.isChecked = -not $childCheckbox.IsChecked
@@ -58,14 +61,14 @@ function Initialize-InstallAppEntry {
         # Create the TextBlock for the application name
         $appName = New-Object Windows.Controls.TextBlock
         $appName.Style = $sync.Form.Resources.AppEntryNameStyle
-        $appName.Text = $Apps.$appKey.content
+        $appName.Text = $appData.content
 
         # Add the name to the Checkbox
         $checkBox.Content = $appName
 
         # Add accessibility properties to make the elements screen reader friendly
-        $checkBox.SetValue([Windows.Automation.AutomationProperties]::NameProperty, $Apps.$appKey.content)
-        $border.SetValue([Windows.Automation.AutomationProperties]::NameProperty, $Apps.$appKey.content)
+        $checkBox.SetValue([Windows.Automation.AutomationProperties]::NameProperty, $appData.content)
+        $border.SetValue([Windows.Automation.AutomationProperties]::NameProperty, $appData.content)
 
         $border.Child = $checkBox
         # Add the border to the corresponding Category

@@ -69,7 +69,6 @@ function Invoke-WPFUIElements {
         # Create an object for the application
         $entryObject = [PSCustomObject]@{
             Name        = $entry
-            Order       = $entryInfo.order
             Category    = $entryInfo.Category
             Content     = $entryInfo.Content
             Panel       = if ($entryInfo.Panel) { $entryInfo.Panel } else { "0" }
@@ -144,8 +143,14 @@ function Invoke-WPFUIElements {
             $itemsControl.Items.Add($label) | Out-Null
             $sync[$category] = $label
 
-            # Sort entries by Order and then by Name
-            $entries = $organizedData[$panelKey][$category] | Sort-Object Order, Name
+            # Sort entries by type (checkboxes first, then buttons, then comboboxes) and then alphabetically by Content
+            $entries = $organizedData[$panelKey][$category] | Sort-Object @{Expression = {
+                switch ($_.Type) {
+                    'Button' { 1 }
+                    'Combobox' { 2 }
+                    default { 0 }
+                }
+            }}, Content
             foreach ($entryInfo in $entries) {
                 $count++
                 # Create the UI elements based on the entry type
@@ -156,6 +161,7 @@ function Invoke-WPFUIElements {
                         $checkBox.Name = $entryInfo.Name
                         $checkBox.HorizontalAlignment = "Right"
                         $checkBox.UseLayoutRounding = $true
+                        [System.Windows.Automation.AutomationProperties]::SetName($checkBox, $entryInfo.Content)
                         $dockPanel.Children.Add($checkBox) | Out-Null
                         $checkBox.Style = $ColorfulToggleSwitchStyle
 
@@ -191,6 +197,7 @@ function Invoke-WPFUIElements {
                         $toggleButton.ToolTip = $entryInfo.Description
                         $toggleButton.HorizontalAlignment = "Left"
                         $toggleButton.Style = $ToggleButtonStyle
+                        [System.Windows.Automation.AutomationProperties]::SetName($toggleButton, $entryInfo.Content[0])
 
                         $toggleButton.Tag = @{
                             contentOn = if ($entryInfo.Content.Count -ge 1) { $entryInfo.Content[0] } else { "" }
@@ -232,6 +239,7 @@ function Invoke-WPFUIElements {
                         $comboBox.SetResourceReference([Windows.Controls.Control]::MarginProperty, "ButtonMargin")
                         $comboBox.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "ButtonFontSize")
                         $comboBox.UseLayoutRounding = $true
+                        [System.Windows.Automation.AutomationProperties]::SetName($comboBox, $entryInfo.Content)
 
                         foreach ($comboitem in ($entryInfo.ComboItems -split " ")) {
                             $comboBoxItem = New-Object Windows.Controls.ComboBoxItem
@@ -273,6 +281,7 @@ function Invoke-WPFUIElements {
                             $baseWidth = [int]$entryInfo.ButtonWidth
                             $button.Width = [math]::Max($baseWidth, 350)
                         }
+                        [System.Windows.Automation.AutomationProperties]::SetName($button, $entryInfo.Content)
                         $itemsControl.Items.Add($button) | Out-Null
 
                         $sync[$entryInfo.Name] = $button
@@ -303,6 +312,7 @@ function Invoke-WPFUIElements {
                         $radioButton.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "ButtonFontSize")
                         $radioButton.ToolTip = $entryInfo.Description
                         $radioButton.UseLayoutRounding = $true
+                        [System.Windows.Automation.AutomationProperties]::SetName($radioButton, $entryInfo.Content)
 
                         if ($entryInfo.Checked -eq $true) {
                             $radioButton.IsChecked = $true
@@ -324,6 +334,7 @@ function Invoke-WPFUIElements {
                         $checkBox.ToolTip = $entryInfo.Description
                         $checkBox.SetResourceReference([Windows.Controls.Control]::MarginProperty, "CheckBoxMargin")
                         $checkBox.UseLayoutRounding = $true
+                        [System.Windows.Automation.AutomationProperties]::SetName($checkBox, $entryInfo.Content)
                         if ($entryInfo.Checked -eq $true) {
                             $checkBox.IsChecked = $entryInfo.Checked
                         }

@@ -32,7 +32,7 @@ function Invoke-WPFUnInstall {
 
     $ManagerPreference = $sync["ManagerPreference"]
 
-    Invoke-WPFRunspace -ArgumentList @(("PackagesToUninstall", $PackagesToUninstall),("ManagerPreference", $ManagerPreference)) -DebugPreference $DebugPreference -ScriptBlock {
+    Invoke-WPFRunspace -ParameterList @(("PackagesToUninstall", $PackagesToUninstall),("ManagerPreference", $ManagerPreference)) -DebugPreference $DebugPreference -ScriptBlock {
         param($PackagesToUninstall, $ManagerPreference, $DebugPreference)
 
         $packagesSorted = Get-WinUtilSelectedPackages -PackageList $PackagesToUninstall -Preference $ManagerPreference
@@ -54,7 +54,7 @@ function Invoke-WPFUnInstall {
             # Run custom uninstallers for apps without package manager IDs
             $manualAppKeys = $sync.selectedApps | Where-Object {
                 $app = $sync.configs.applicationsHashtable.$_
-                $app.winget -eq 'na' -and $app.choco -eq 'na'
+                ($app.winget -eq 'na' -or -not $app.winget) -and ($app.choco -eq 'na' -or -not $app.choco)
             }
 
             foreach ($appKey in $manualAppKeys) {
