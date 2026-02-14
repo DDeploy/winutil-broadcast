@@ -5,7 +5,9 @@ permissions:
   actions: read
 
 on:
-  workflow_dispatch: # Manual trigger added
+  push:
+    branches: ["main"]
+  workflow_dispatch: # Manual trigger
 
 jobs:
   build-runspace:
@@ -70,6 +72,7 @@ jobs:
             ![GitHub Downloads (specific asset, specific tag)](https://img.shields.io/github/downloads/DDeploy/winutil-broadcast/${{ env.VERSION }}/winutil.ps1)
           append_body: false
           files: ./winutil.ps1
+          overwrite_files: true
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
